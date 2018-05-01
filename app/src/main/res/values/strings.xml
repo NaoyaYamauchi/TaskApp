@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TaskApp</string>
+    <string-array name="category">
+        <item>カテゴリA</item>
+        <item>カテゴリB</item>
+        <item>未定義</item>
+        <item>新規作成</item>
+    </string-array>
     <string name="action_settings">Settings</string>
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,38 +13,56 @@
     tools:showIn="@layout/activity_input">
 
     <EditText
+        android:id="@+id/title_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title_edit_text"
-        android:hint="タイトル"/>
+        android:hint="タイトル" />
+
     <EditText
+        android:id="@+id/content_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_edit_text"
-        android:id="@+id/content_edit_text"
-        android:hint="内容"/>
+        android:hint="内容" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="カテゴリ"
+        android:layout_below="@+id/content_edit_text"
+        android:id="@+id/textView"/>
+    <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:spinnerMode="dialog"
+        android:hint="カテゴリ"/>
+
     <Button
+        android:id="@+id/date_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/content_edit_text"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/category_spinner"
         android:layout_toLeftOf="@+id/times_button"
-        android:id="@+id/date_button"
-        android:text="----/--/--"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
+        android:text="----/--/--" />
+
     <Button
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/content_edit_text"
-        android:text="--:--"
-        android:layout_alignParentRight="true"
         android:id="@+id/times_button"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
-    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/times_button"
         android:layout_alignParentRight="true"
-        android:text="決定"
-        android:id="@+id/done_button"/>
+        android:layout_below="@id/category_spinner"
+        android:text="--:--" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/times_button"
+        android:text="決定" />
 </RelativeLayout>

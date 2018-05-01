@@ -7,9 +7,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toolbar;
 
 import java.util.Date;
 
@@ -30,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
     };
     private ListView mListView;
     private TaskAdapter mTaskAdapter;
+    private Task mTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // Realmの設定
         mRealm = Realm.getDefaultInstance();
         mRealm.addChangeListener(mRealmListener);
+
 
         // ListViewの設定
         mTaskAdapter = new TaskAdapter(MainActivity.this);
@@ -92,7 +97,26 @@ public class MainActivity extends AppCompatActivity {
                         reloadListView();
                     }
                 });
-                builder.setNegativeButton("CANCEL",null);
+                //あとでこれに戻しておく
+                //builder.setNegativeButton("CANCEL",null);
+
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RealmResults<Category> results = mRealm.where(Category.class).notEqualTo("category",mTask.getCategory().toString()).findAll();
+
+                        Log.d("category",mTask.getCategory().toString());
+                        mRealm.beginTransaction();
+                        results.deleteAllFromRealm();
+                        reloadListView();
+                        mRealm.cancelTransaction();
+                    }
+                });
+
+
+                //ここまで
+                //右上のボタンが表示できたら➡カテゴリの絞り込み解除、キャンセル、絞り込み　を選択できるアラートを出すようにする
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -121,14 +145,4 @@ public class MainActivity extends AppCompatActivity {
         mRealm.close();
     }
 
-    private void addTaskForTest() {
-        Task task = new Task();
-        task.setTitle("作業");
-        task.setContents("プログラムを書いてPUSHする");
-        task.setDate(new Date());
-        task.setId(0);
-        mRealm.beginTransaction();
-        mRealm.copyToRealmOrUpdate(task);
-        mRealm.commitTransaction();
-    }
 }
